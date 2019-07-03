@@ -1,8 +1,5 @@
 # CaRE
 ## CaRe: Open Knowledge Graph Embeddings
 
-![](https://github.com/malllabiisc/HyTE/blob/master/time_proj.png)
-*Overview of HyTE (proposed method). a temporally aware
-KG embedding method which explicitly incorporates time in the entity-relation space by
-stitching each timestamp with a corresponding hyperplane. HyTE not only performs KG
-inference using temporal guidance, but also predicts temporal scopes for relational facts with missing time annotations. Please refer paper for more details.*
+![](https://github.com/malllabiisc/CaRE/blob/master/CaRe_model.pdf)
+*Overview of CaRe (proposed method). CaRe can transform any existing KG embedding model. For any triple (s,r,o), in CaRe, Relation Phrase embeddings are parameterized by encoding vector representations of the word sequence composing them to capture semantic similarity of the phrases. Embeddings of Noun Phrases are made more context rich by updating them with the representations of canonical NPs.*
