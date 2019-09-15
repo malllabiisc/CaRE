@@ -4,7 +4,7 @@ import argparse
 
 from utils import *
 from encoder import GRUEncoder
-from gnn_variants import CaRe, CaReGCN, CaReGAT
+from cn_variants import LAN, GCN, GAT
 from data import load_data
 
 import os
@@ -19,12 +19,12 @@ class ConvEParam(nn.Module):
         self.rel2words = rel2words
         self.phrase_embed_model = GRUEncoder(embed_matrix, self.args)
 
-        if self.args.model_variant=='CaRe':
-        	self.gnn = CaRe(self.args.nfeats, self.args.nfeats)
-        elif self.args.model_variant=='CaReGCN':
-        	self.gnn = CaReGCN(self.args.nfeats, self.args.nfeats)
+        if self.args.CN=='LAN':
+        	self.cn = CaRe(self.args.nfeats, self.args.nfeats)
+        elif self.args.CN=='GCN':
+        	self.cn = CaReGCN(self.args.nfeats, self.args.nfeats)
         else:
-        	self.gnn = CaReGAT(self.args.nfeats, self.args.nfeats//self.args.nheads, heads=self.args.nheads, dropout=self.args.dropout)
+        	self.cn = CaReGAT(self.args.nfeats, self.args.nfeats//self.args.nheads, heads=self.args.nheads, dropout=self.args.dropout)
 
         
         self.np_embeddings = nn.Embedding(self.args.num_nodes, self.args.nfeats)        
@@ -43,7 +43,7 @@ class ConvEParam(nn.Module):
         self.fc = torch.nn.Linear(16128,self.args.nfeats)        
         
     def forward(self, x, edges):
-        return self.gnn(x, edges)
+        return self.cn(x, edges)
 
     def get_scores(self,ent,rel,ent_embed,batch_size):
         
@@ -71,7 +71,7 @@ class ConvEParam(nn.Module):
     def get_embed(self, edges, node_id, r):
         
         np_embed = self.np_embeddings(node_id)
-        if self.args.model_variant != 'Param':
+        if self.args.CN != 'Phi':
         	np_embed = self.forward(np_embed, edges)
 
 
@@ -84,7 +84,7 @@ class ConvEParam(nn.Module):
     def get_loss(self,samples,labels,edges,node_id):
 
         np_embed = self.np_embeddings(node_id)
-        if self.args.model_variant != 'Param':
+        if self.args.cn != 'Phi':
         	np_embed = self.forward(np_embed, edges)
         
         sub_embed = np_embed[samples[:,0]]
@@ -192,8 +192,8 @@ if __name__ == '__main__':
 	parser = argparse.ArgumentParser(description='CaRe: Canonicalization Infused Representations for Open KGs')
 
 	### Model and Dataset choice
-	parser.add_argument('-model_variant',   dest='model_variant', 	default='CaRe', 	choices=['CaRe','CaReGCN','CaReGAT','Param'],		help='modification on Base model')
-	parser.add_argument('-dataset', 	    dest='dataset', 	    default='ReVerb45K',choices=['ReVerb45K','ReVerb20K'],		            help='Base model choice')
+	parser.add_argument('-CN',   dest='CN', default='LAN', choices=['LAN','GCN','GAT','Phi'], help='Choice of Canonical Cluster Encoder Network')
+	parser.add_argument('-dataset', 	    dest='dataset', 	    default='ReVerb45K',choices=['ReVerb45K','ReVerb20K'],		            help='Dataset Choice')
 
 	### Data Paths
 	parser.add_argument('-data_path',       dest='data_path',       default='../Data', 			help='Data folder')
@@ -213,7 +213,7 @@ if __name__ == '__main__':
 	parser.add_argument('-n_epochs',    dest='n_epochs',     default=500,   type=int,       help='maximum no. of epochs')
 	parser.add_argument('-grad_norm',   dest='grad_norm',    default=1.0,   type=float,     help='gradient clipping')
 	parser.add_argument('-eval_epoch',  dest='eval_epoch',   default=5,     type=int,       help='Interval for evaluating on validation dataset')
-	parser.add_argument('-Hits',        dest='Hits',         default= [10,30,50],           help='gradient clipping')
+	parser.add_argument('-Hits',        dest='Hits',         default= [10,30,50],           help='Choice of n in Hits@n')
 	parser.add_argument('-early_stop',  dest='early_stop',   default=10,    type=int,       help='Stopping training after validation performance stops improving')
 	
 
@@ -231,7 +231,7 @@ if __name__ == '__main__':
 	'glove_path'        : 'glove/glove.6B.300d.txt'
 	}
 
-	args.model_path = "ConvE" + "-" + args.model_variant + "_modelpath.pth"
+	args.model_path = "ConvE" + "-" + args.CN + "_modelpath.pth"
 
 
 	main(args)

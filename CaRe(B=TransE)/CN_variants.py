@@ -14,9 +14,9 @@ from torch_geometric.nn import MessagePassing
 from torch_geometric.utils import remove_self_loops, add_self_loops, softmax, degree
 
 
-class CaRe(MessagePassing):
+class LAN(MessagePassing):
     def __init__(self, in_channels, out_channels):
-        super(CaRe, self).__init__(aggr='add')
+        super(LAN, self).__init__(aggr='add')
 
     def forward(self, x, edge_index):
         return self.propagate(edge_index, Shape = (x.size(0), x.size(0)), x = x)
@@ -32,9 +32,9 @@ class CaRe(MessagePassing):
         return  x/2 + h_prime/2
 
 
-class CaReGCN(MessagePassing):
+class GCN(MessagePassing):
     def __init__(self, in_channels, out_channels):
-        super(CaReGCN, self).__init__(aggr='add')
+        super(GCN, self).__init__(aggr='add')
         self.lin = torch.nn.Linear(in_channels, out_channels)
 
     def forward(self, x, edge_index):
@@ -55,7 +55,7 @@ class CaReGCN(MessagePassing):
         return h_prime
 
 
-class CaReGAT(MessagePassing):
+class GAT(MessagePassing):
     def __init__(self,
                  in_channels,
                  out_channels,
@@ -64,7 +64,7 @@ class CaReGAT(MessagePassing):
                  negative_slope=0.2,
                  dropout=0,
                  bias=True):
-        super(CaReGAT, self).__init__('add')
+        super(GAT, self).__init__('add')
 
         self.in_channels = in_channels
         self.out_channels = out_channels
