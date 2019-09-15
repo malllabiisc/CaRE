@@ -19,16 +19,16 @@ Source code and dataset for [EMNLP 2019](https://www.emnlp-ijcnlp2019.org/) pape
 
   rel2id.txt: all relation phrases and corresponding ids, one per line. The first line is the number of relations.
 
-  train_trip.txt: training file, the first line is the number of triples for training. Then the following lines are all in the format ***(s  r  o)*** which indicates there is a relation ***rel*** between ***s*** and ***o*** .
+  train_trip.txt: training file, the first line is the number of triples for training. Then the following lines are all in the format ***(s,r,o)*** which indicates there is a relation ***rel*** between ***s*** and ***o*** .
   **Note that train_trip.txt contains ids from ent2id.txt and rel2id.txt instead of the actual noun and relation phrases.**
   
-  test_trip.txt: testing file, the first line is the number of triples for testing. Then the following lines are all in the format ***(s  r  o)*** .
+  test_trip.txt: testing file, the first line is the number of triples for testing. Then the following lines are all in the format ***(s,r,o)*** .
 
-  valid_trip.txt: validating file, the first line is the number of triples for validating. Then the following lines are all in the format ***(s  r  o)*** .
+  valid_trip.txt: validating file, the first line is the number of triples for validating. Then the following lines are all in the format ***(s,r,o)*** .
   
-  cesi_npclust.txt: The noun phrase canonicalization output of [CESI](https://github.com/malllabiisc/cesi). Each line corresponds to the canonicalization information of a noun phrase in the following format ***(NP_id  no. of canonical NPs  list ids of canonical NPs)*** . 
+  cesi_npclust.txt: The noun phrase canonicalization output of [CESI](https://github.com/malllabiisc/cesi). Each line corresponds to the canonicalization information of a noun phrase in the following format ***(NP_id, no. of canonical NPs, list ids of canonical NPs)*** . 
   
-  gold_npclust.txt: The ground truth noun phrase canonicalization information. This information is used during evaluations. Each line corresponds to the canonicalization information of a noun phrase in the following format ***(NP_id  no. of canonical NPs  list ids of canonical NPs)*** .
+  gold_npclust.txt: The ground truth noun phrase canonicalization information. This information is used during evaluations. Each line corresponds to the canonicalization information of a noun phrase in the following format ***(NP_id, no. of canonical NPs, list ids of canonical NPs)*** .
   
   
 ### Usage:
@@ -43,5 +43,9 @@ Any existing KG embedding model can used in the CaRe framework. Codes for the fo
   '-bidirectional',  dest='bidirectional', default=True, type=bool, help='type of encoder network'
   '-poolType', dest='poolType', default='last', choices=['last','max','mean'], help='pooling operation for encoder network'
   ```
+
+##### Run the main code:
+* After installing python dependencies, execute `sh setup.sh` to download pre-trained glove embeddings. (Experiments can be run without this step as well. In that case word vectors would get randomly initialzed.)
+* Move to the directory of corresponding to the choice of Base model and execute: python CaRe_main.py -CN LAN -dataset ReVerb45K.
 
 
