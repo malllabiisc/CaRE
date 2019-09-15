@@ -84,7 +84,7 @@ class ConvEParam(nn.Module):
     def get_loss(self,samples,labels,edges,node_id):
 
         np_embed = self.np_embeddings(node_id)
-        if self.args.cn != 'Phi':
+        if self.args.CN != 'Phi':
         	np_embed = self.forward(np_embed, edges)
         
         sub_embed = np_embed[samples[:,0]]
