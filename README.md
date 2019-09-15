@@ -35,13 +35,13 @@ Source code and dataset for [EMNLP 2019](https://www.emnlp-ijcnlp2019.org/) pape
 Any existing KG embedding model can used in the CaRe framework. Codes for the following Base Models (B) is provided:
 * ConvE in the directory `CaRe(B=ConvE)`.
 * TransE in the directory `CaRe(B=TransE)`.
-* Some of the important Available options include:
+* Some of the important available options include:
   ```shell
-  '-CN',   dest='CN', 	default='LAN', 	choices=['LAN','GCN','GAT','Phi'],		help='Choice of Canonical Cluster Encoder Network'
-	'-dataset', 	    dest='dataset', 	    default='ReVerb45K',choices=['ReVerb45K','ReVerb20K'],		            help='Dataset Choice'
-  '-nfeats',      dest='nfeats',       default=300,   type=int,       help='Embedding Dimensions'
-  '-bidirectional',  dest='bidirectional',   default=True,     type=bool,       help='type of encoder network'
-  '-poolType',    dest='poolType',     default='last',choices=['last','max','mean'], help='pooling operation for encoder network'
-  
+  '-CN',   dest='CN', default='LAN', choices=['LAN','GCN','GAT','Phi'], help='Choice of Canonical Cluster Encoder Network'
+  '-dataset', dest='dataset', default='ReVerb45K',choices=['ReVerb45K','ReVerb20K'], help='Dataset Choice'
+  '-nfeats', dest='nfeats', default=300, type=int, help='Embedding Dimensions'
+  '-bidirectional',  dest='bidirectional', default=True, type=bool, help='type of encoder network'
+  '-poolType', dest='poolType', default='last', choices=['last','max','mean'], help='pooling operation for encoder network'
+  ```
 
 
