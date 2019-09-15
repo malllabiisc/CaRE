@@ -45,7 +45,7 @@ Any existing KG embedding model can used in the CaRe framework. Codes for the fo
   ```
 
 ##### Run the main code:
-* After installing python dependencies, execute `sh setup.sh` to download pre-trained glove embeddings. (Experiments can be run without this step as well. In that case word vectors would get randomly initialzed.)
+* After installing python dependencies, execute `sh setup.sh` to download pre-trained glove embeddings. (Experiments can be run without this step as well. In that case word vectors would get randomly initialized.)
 * Move to the directory of corresponding to the choice of Base model and execute: python CaRe_main.py -CN LAN -dataset ReVerb45K.
 
 
